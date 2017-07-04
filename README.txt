@@ -25,14 +25,15 @@ installed to the standard /jac_sw/itsroot/install location.
 For now, python scripts/modules will need to be in a dedicated
 directory with a custom Makefile.Host file:
 
-all:
-    ./setup.py install
+install:
+    ../setup.py install
 
 And a custom setup.py file that imports this module:
 
 import os
 import uae
-uae.scripts = [x for x in os.listdir('.') if x.endswith('.py')]
+uae.scripts = [test.py]
 uae.setup()
 
+Note that the setup.cfg file is build output and should be ignored.
 

@@ -26,9 +26,19 @@ For now, python scripts/modules will need to be in a dedicated
 directory with a custom Makefile.Host file:
 
 install:
-    ../setup.py install
+	../setup.py install
 
-And a custom setup.py file that imports this module:
+If you need to build C programs or other non-python targets,
+you can incorporate setup.py into a more typical UAE
+Makefile.Host file by updating the TARGETS variable like so:
+
+include $(TOP)/config/CONFIG
+TARGETS = pyinstall
+pyinstall:
+	../setup.py install
+include $(TOP)/config/RULES.Build
+
+Here's an example setup.py file that imports this module:
 
 import os
 import uae

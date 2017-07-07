@@ -46,14 +46,17 @@ with open(p + '/config/CONFIG.Defs') as f:
         config[key] = value
 
 inst = config['APPLIC_INSTALL'] + '/' + config['APPLIC_VERSION']
+inst = os.path.realpath(inst)
 deps = [inst] + config['APPLIC_DEPENDS'].split() + [config['APPLIC_BASE']]
 libs = ['./'] + [x + '/lib/' + Linux for x in deps]
-libs = [os.path.realpath(x) for x in libs if os.path.exists(x) or inst in x]
+libs = [os.path.realpath(x) for x in libs]
+libs = [x for x in libs if os.path.exists(x) or inst in x]
 incs = ['./']
 for d in deps:
     incs.append(d + '/include')
     incs.append(d + '/include/os/' + Linux)
-incs = [os.path.realpath(x) for x in incs if os.path.exists(x) or inst in x]
+incs = [os.path.realpath(x) for x in incs]
+incs = [x for x in incs if os.path.exists(x) or inst in x]
 
 # modify options before importing distutils;
 # setup.cfg avoids some bugs with sys.argv parsing.

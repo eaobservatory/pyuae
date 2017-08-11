@@ -107,6 +107,7 @@ scripts = []
 packages = []
 py_modules = []
 ext_modules = []
+package_dir = {}
 
 def setup():
     dsetup(
@@ -116,6 +117,7 @@ def setup():
         packages = packages,
         py_modules = py_modules,
         ext_modules = ext_modules,
+        package_dir = package_dir,
         cmdclass = {'build_scripts':build_scripts,
                     'build_ext': build_ext}
         )

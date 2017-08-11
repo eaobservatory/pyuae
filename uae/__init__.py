@@ -105,6 +105,7 @@ class build_scripts(dbuild_scripts):
 
 scripts = []
 packages = []
+py_modules = []
 ext_modules = []
 
 def setup():
@@ -113,6 +114,7 @@ def setup():
         version = 'uae',
         scripts = scripts,
         packages = packages,
+        py_modules = py_modules,
         ext_modules = ext_modules,
         cmdclass = {'build_scripts':build_scripts,
                     'build_ext': build_ext}

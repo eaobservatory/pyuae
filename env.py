@@ -17,13 +17,15 @@ import sys
 import os
 import shlex
 argv = []
-if os.path.exists(sys.argv[-1]):
-    line = open(sys.argv[-1]).readline()
-    if line and line.startswith('#!'):
-        argv = shlex.split(line[2:])
-        if argv and argv[0] == sys.argv[0]:
-            sys.argv = argv + [sys.argv[-1]]
-        argv = []
+for i in range(1,len(sys.argv)):
+    if os.path.exists(sys.argv[i]):
+        line = open(sys.argv[i]).readline()
+        if line and line.startswith('#!'):
+            argv = shlex.split(line[2:])
+            if argv and argv[0] == sys.argv[0]:
+                sys.argv = argv + sys.argv[i:]
+                break
+argv = []
 for arg in sys.argv:
     if arg.startswith('-S'):
         s = shlex.split(arg[2:])

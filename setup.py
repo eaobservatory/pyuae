@@ -4,6 +4,6 @@ setup(
   name = 'uae',
   author = 'Ryan Berthold',
   scripts = ['env.py'],
-  packages = ['uae']
+  packages = ['uae', 'jac_sw']
 )
 

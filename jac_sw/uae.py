@@ -84,7 +84,7 @@ class build_scripts(dbuild_scripts):
             with open(modpath,'w') as f:
                 f.write('deps = [\n')
                 for d in deps:
-                    f.write('%s,\n', repr(d))
+                    f.write('%s,\n' % (repr(d)))
                 f.write(']\n')
 
 

@@ -51,7 +51,7 @@ Suggestions for alternatives/improvements welcome; contact RMB.
 
 import sys
 import os
-import arch
+from . import arch
 
 # set default environment variables if missing;
 # note updating os.environ calls os.putenv, but not vice versa.
@@ -76,7 +76,7 @@ def check_module():
 
 # look for CONFIG.Defs and use those module paths
 def check_config():
-    import config
+    from . import config
     if config.path:
         for mod in reversed(config.mods):
             sys.path.insert(1, mod)

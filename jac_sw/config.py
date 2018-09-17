@@ -13,7 +13,7 @@ mods: python module search paths, inst + existing libs
 
 import os
 import sys
-import arch
+from . import arch
 
 config = {}
 inst = ''
@@ -22,7 +22,9 @@ libs = []
 incs = []
 mods = []
 
-path = os.path.dirname(os.path.realpath(sys.argv[0]))
+path = os.path.realpath(sys.argv[0])
+if sys.argv[0]:  # not interactive
+    path = os.path.dirname(path)
 while path != '/':
     if os.path.exists(path + '/config/CONFIG.Defs'):
         break

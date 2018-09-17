@@ -30,8 +30,8 @@ uae.setup(
             )])
 '''
 
-from arch import *
-from config import *
+from jac_sw.arch import *
+from jac_sw.config import *
 
 if not path:
     raise RuntimeError('CONFIG.Defs not found')
@@ -78,6 +78,10 @@ class build_scripts(dbuild_scripts):
         mt_new = [mtime(f) for f in outfiles]
         modified = [f for f,o,n in zip(outfiles, mt_old, mt_new) if o != n]
         for outfile in modified:
+            # make sure it's a python script
+            shebang = open(outfile).readline()
+            if not (shebang.startswith('#!') and 'python' in shebang):
+                continue
             scriptdir = os.path.dirname(outfile)
             scriptname = os.path.basename(outfile).split('.')[0]
             modpath = scriptdir + '/__' + scriptname + '__syspath__.py'

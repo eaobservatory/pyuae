@@ -132,7 +132,7 @@ def git_version_file(filename):
     with open(filename, 'w') as f:
         hostname = socket.gethostname()
         timestamp = time.strftime('%Y%m%d %H:%M:%S %Z')
-        inpath = os.path.realpath(sys.argv[0])
+        inpath = os.path.realpath(os.path.basename(sys.argv[0]))
         outpath = os.path.realpath(filename)
         f.write('"""\n')
         f.write('%s\n' % (outpath))

@@ -114,4 +114,33 @@ def setup(name = config['APPLIC_VERSION'],
     dsetup(name=name, version=version, cmdclass=cmdclass, **kwargs)
 
 
+def git_version_file(filename):
+    '''
+    Create a file containing git version information.
+    filename.__version__ is set to the 'git describe' output, while
+    filename.__doc__ holds a more verbose summary of the repository status.
+    '''
+    import time
+    import socket
+    from subprocess import check_output
+    def doc(f, cmd):
+        out = check_output(cmd.split())
+        out = str(out.decode())
+        out = out.strip().replace('\\', '\\\\').replace('"""', '\\"\\"\\"')
+        f.write('\n\n=== %s ===\n\n%s' % (cmd, out))
+        return out
+    with open(filename, 'w') as f:
+        hostname = socket.gethostname()
+        timestamp = time.strftime('%Y%m%d %H:%M:%S %Z')
+        inpath = os.path.realpath(sys.argv[0])
+        outpath = os.path.realpath(filename)
+        f.write('"""\n')
+        f.write('%s\n' % (outpath))
+        f.write('Generated %s by %s:%s\n' % (timestamp, hostname, inpath))
+        description = doc(f, 'git describe --always --long --dirty')
+        doc(f, 'git log -1 --decorate --stat')
+        doc(f, 'git status')
+        doc(f, 'git diff')
+        f.write('\n"""\n\n__version__ = "%s"\n\n\n' % (description))
+
 

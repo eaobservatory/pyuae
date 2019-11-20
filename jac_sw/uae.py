@@ -55,6 +55,7 @@ sys.stdout.write('UAE config:\ninst: %s\ndeps: %s\nlibs: %s\nincs: %s\nargv: %s\
 
 from distutils.core import setup as dsetup
 from distutils.command.build_scripts import build_scripts as dbuild_scripts
+from distutils.command.install_scripts import install_scripts as dinstall_scripts
 from distutils.util import convert_path
 from distutils.extension import Extension
 from Cython.Distutils import build_ext
@@ -91,10 +92,17 @@ class build_scripts(dbuild_scripts):
                     f.write('%s,\n' % (repr(d)))
                 f.write(']\n')
 
+class install_scripts(dinstall_scripts):
+    def run(self):
+        # skip the chmod, just copy things over.
+        if not self.skip_build:
+            self.run_command('build_scripts')
+        self.outfiles = self.copy_tree(self.build_dir, self.install_dir)
 
 def setup(name = config['APPLIC_VERSION'],
           version = 'uae',
           cmdclass = {'build_scripts':build_scripts,
+                      'install_scripts':install_scripts,
                       'build_ext': build_ext},
           **kwargs):
     '''
